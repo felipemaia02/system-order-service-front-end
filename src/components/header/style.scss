@@ -1,0 +1,25 @@
+.header{
+    background-color: #232026;
+    width: 100%;
+    padding: 10px;
+    padding-left: 5%;
+    padding-right: 5%;
+    &__main{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        ul{
+            display: flex;
+            list-style: none;
+            
+            li{
+                margin-right: 10px;
+                a{
+                    color: #fff;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}

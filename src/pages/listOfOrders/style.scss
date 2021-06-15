@@ -1,0 +1,27 @@
+.pagelist-order{
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1144px;
+    
+    @media (min-width: 1144px) {
+        max-width: 1144px;
+    }
+    @media (min-width: 960px) {
+        max-width: 960px;
+    }
+    @media (min-width: 768px) {
+        max-width: 768px;
+    }
+    h1{
+        margin-top: 20px; 
+    }
+    &__main{
+
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        
+    }
+}
