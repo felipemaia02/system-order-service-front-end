@@ -12,8 +12,19 @@ const createFeedback = async (orderId:number, payload:IAuthorAndMessage) => {
     }
 }
 
+const getFeedback = async (orderId:number,) => {
+    try {
+        return (await api.get(`/ordens/${orderId}/feedbacks`)).data
+    } catch (err) {
+        //tratar erro
+        console.log(err)
+        return {err}
+    }
+}
+
 export  {
-    createFeedback
+    createFeedback,
+    getFeedback
 }
 
 interface IAuthorAndMessage {

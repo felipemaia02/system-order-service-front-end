@@ -1,0 +1,91 @@
+.accordion-component {
+  padding: 0.5rem 0.5rem 0.5rem 2.5rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-bottom: 22px;
+  background-color: #3E3B46;
+  border-radius: 5px;
+
+  @media (max-width: 900px) {
+    padding: 0.5rem;
+  }
+
+  a{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  span{
+    display: flex;
+  }
+
+  
+  .accordion-open > a {
+  }
+
+  .accordion-content {
+    overflow: hidden;
+    max-height: 0;
+    transition: all 300ms ease-in-out;
+    font-size: 14px;
+    font-weight: normal;
+
+    @media (max-width: 900px) {
+      word-break: break-word;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    p{
+      padding-bottom: 10px;
+  }
+
+  }
+  .accordion-open {
+    .accordion-content {
+      max-height: 1000px;
+    }
+  }
+  .mais {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .menos {
+    border-radius: 0.25rem;
+    font-size: 36px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .align {
+    display: flex;
+    align-items: center;
+  }
+  .menos1 {
+    height: 4px;
+    width: 17px;
+    background-color: #FF9000;
+    position: absolute;
+  }
+  .mais1 {
+    width: 4px;
+    height: 17px;
+    background-color: #FF9000;
+    position: absolute;
+  }
+}
