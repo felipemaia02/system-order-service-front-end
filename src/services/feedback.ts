@@ -8,7 +8,7 @@ const createFeedback = async (orderId:number, payload:IAuthorAndMessage) => {
     } catch (err) {
         //tratar erro
         console.log(err)
-        return {err}
+        return false
     }
 }
 

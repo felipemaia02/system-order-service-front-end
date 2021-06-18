@@ -1,5 +1,5 @@
 import api from '../config/api'
-
+import {IOrder} from '../utils/interfaces'
 
 
 const createOS = async (payload: IOS) => {
@@ -36,11 +36,23 @@ const findActiveOSAndAssignToDev = async (query: IDevIdAndStatus) => {
 
 const findOSAndAssignedToDev = async (devId: number) => {
     try {
-        return (await api.get(`/ordens/?dev=${devId}`)).data
+        const orders:IOrder[] = (await api.get(`/ordens/?dev=${devId}`)).data
+        return orders
     } catch (err) {
         //tratar erro
         console.log(err)
-        return {err}
+        return false
+    }
+}
+
+const findAllOs = async () => {
+    try {
+        const orders:IOrder[] = (await api.get(`/ordens`)).data
+        return orders
+    } catch (err) {
+        //tratar erro
+        console.log(err)
+        return false
     }
 }
 
@@ -59,7 +71,8 @@ export  {
     assignOrderToDev,
     findOSAndAssignedToDev,
     findActiveOSAndAssignToDev,
-    finalizeOs
+    finalizeOs,
+    findAllOs
 }
 
 interface IDevIdAndStatus {
