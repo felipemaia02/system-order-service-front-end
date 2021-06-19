@@ -24,4 +24,22 @@
         margin-top: 20px;
         
     }
+
+    .button-div{
+        display: flex;
+        justify-content: flex-end;
+
+        .button-delete{
+            color: #6F6E75;
+            display: flex;
+            align-items: center;
+            border: none;
+            background: none;
+            margin-right: 17px;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+    }
+
+
 }
