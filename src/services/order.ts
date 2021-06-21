@@ -34,9 +34,20 @@ const findActiveOSAndAssignToDev = async (query: IDevIdAndStatus) => {
     }
 }
 
-const findOSAndAssignedToDev = async (devId: number) => {
+const findOSAssignedToDev = async (devId: number) => {
     try {
         const orders:IOrder[] = (await api.get(`/ordens/?dev=${devId}`)).data
+        return orders
+    } catch (err) {
+        //tratar erro
+        console.log(err)
+        return false
+    }
+}
+
+const findOSCreatedByClient = async (clientId: number) => {
+    try {
+        const orders:IOrder[] = (await api.get(`/ordens/?cliente=${clientId}`)).data
         return orders
     } catch (err) {
         //tratar erro
@@ -69,10 +80,11 @@ const finalizeOs = async (id: number) => {
 export  {
     createOS,
     assignOrderToDev,
-    findOSAndAssignedToDev,
+    findOSAssignedToDev,
     findActiveOSAndAssignToDev,
     finalizeOs,
-    findAllOs
+    findAllOs,
+    findOSCreatedByClient
 }
 
 interface IDevIdAndStatus {

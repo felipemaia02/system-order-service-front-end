@@ -3,26 +3,29 @@ import { FiChevronRight } from "react-icons/fi";
 import { Accordion } from "../../components/Accordion";
 import Header from "../../components/header";
 import { IOrder } from "../../utils/interfaces";
-import { findOSAndAssignedToDev, findAllOs } from "../../services/order";
+import { findOSAssignedToDev, findAllOs, findOSCreatedByClient } from "../../services/order";
 
 import "./style.scss";
 
 export default function ListOfOrders() {
   const [orders, serOrder] = useState<IOrder[]>([]);
-  const [userId, setUserId] = useState(1);
-  const [userType, setUserType] = useState('ADM');
+  const [userTypeState, setUserType] = useState('ADM');
+
+  let userType = 'ADM'
+  let userId = 1
 
   useEffect(() => {
     defineuserIdAndType();
     switch (userType) {
       case 'DEV':
+        console.log(userId)
         getDevOSs(userId);
         break;
       case 'ADM':
         getAllOSs();
         break;
       case 'USR':
-        //getClienteOSs
+        getClientOSs(userId)
         break;
       default:
         getAllOSs();
@@ -35,8 +38,9 @@ export default function ListOfOrders() {
     const params: any = Object.fromEntries(urlSearchParams.entries());
     if (params) {
         try {
-            setUserType(params.userType)
-            setUserId(parseInt(params.userId));
+            userType = params.userType
+            setUserType(userType)
+            userId = params.userId
         } catch (error) {
             console.log(error)
         }
@@ -44,7 +48,7 @@ export default function ListOfOrders() {
   };
 
   const getDevOSs = async (id:number) => {
-    const orders = await findOSAndAssignedToDev(id);
+    const orders = await findOSAssignedToDev(id);
     console.log(orders);
     if (orders) serOrder(orders);
   };
@@ -55,24 +59,38 @@ export default function ListOfOrders() {
     if (orders) serOrder(orders);
   };
 
+  const getClientOSs = async (clientId:number) => {
+    const orders = await findOSCreatedByClient(clientId);
+    console.log(orders);
+    if (orders) serOrder(orders);
+  };
+
+  const atribuirOs = (orderId:number) => {
+    //mudar para tela de atribuir OS
+  }
+
+  const criarOs = () => {
+    
+    //mudar para tela de criar OS
+  }
+
   return (
     <>
       <div className="pagelist-orders">
-        <h1>Serviços do cliente</h1>
+        <h1>Serviços</h1>
         <div className="pagelist-order__main">
           {orders.map( order => (
-            <Accordion title="service 01">
-                {order.descricao && <p>Descricao: {order.descricao}</p> }
+            <Accordion title={order.descricao}>
                 {order.dataFechamento && (<p>dataFechamento: {order.dataFechamento}</p>)}
                 {order.dataInicioAtendimento && (<p>dataInicioAtendimento: {order.dataInicioAtendimento}</p>)}
-                {order.prazoParaConclusao && (<p>prazoParaConclusao: {order.prazoParaConclusao}</p>)}
+                <p>prazoParaConclusao: {order.prazoParaConclusao}</p>
                 {order.assunto && (<p>assunto: {order.assunto}</p>)}
-                {order.status && (<p>status: {order.status}</p>)}
-                <a href={`/feedback?orderId=${order.id}&userId=${userId}`}>feedback</a>
+                <p>status: {order.status}</p>
+                {(order.status === 'ABERTA' && userTypeState === 'ADM') &&(<button onClick={() => atribuirOs(order.id)}>Atribuir OS</button>)}
+                {(userTypeState === 'USR' || userTypeState === 'DEV') && (<a href={`/feedback?orderId=${order.id}&userId=${userId}`}>feedback</a>)}
             </Accordion>
-            /* LINK PARA CONVERSAÇÃO [CLIENTE | DEV]  {order.feedbacks}*/
           ))}
-          {/* BOTÃO DE CRIAR OS */}
+          {userTypeState === 'USR' && (<button onClick={()=>criarOs}>Criar OS</button>)}
         </div>
       </div>
     </>
