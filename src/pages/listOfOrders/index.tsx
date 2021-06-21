@@ -1,7 +1,6 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { Accordion } from "../../components/Accordion";
-import Header from "../../components/header";
 import { IOrder } from "../../utils/interfaces";
 import { findOSAssignedToDev, findAllOs, findOSCreatedByClient } from "../../services/order";
 
