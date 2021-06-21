@@ -1,7 +1,6 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { Accordion } from "../../components/Accordion";
-import Header from "../../components/header";
 import { IOrder } from "../../utils/interfaces";
 import { findOSAndAssignedToDev, findAllOs } from "../../services/order";
 
@@ -57,23 +56,27 @@ export default function ListOfOrders() {
 
   return (
     <>
-      <div className="pagelist-orders">
+      <div className="pagelist-order">
         <h1>Serviços do cliente</h1>
-        <div className="pagelist-order__main">
-          {orders.map( order => (
-            <Accordion title="service 01">
-                {order.descricao && <p>Descricao: {order.descricao}</p> }
-                {order.dataFechamento && (<p>dataFechamento: {order.dataFechamento}</p>)}
-                {order.dataInicioAtendimento && (<p>dataInicioAtendimento: {order.dataInicioAtendimento}</p>)}
-                {order.prazoParaConclusao && (<p>prazoParaConclusao: {order.prazoParaConclusao}</p>)}
-                {order.assunto && (<p>assunto: {order.assunto}</p>)}
-                {order.status && (<p>status: {order.status}</p>)}
-                <a href={`/feedback?orderId=${order.id}&userId=${userId}`}>feedback</a>
-            </Accordion>
-            /* LINK PARA CONVERSAÇÃO [CLIENTE | DEV]  {order.feedbacks}*/
-          ))}
-          {/* BOTÃO DE CRIAR OS */}
-        </div>
+        { orders.length <= 0 ? (
+            <h2>Vazio</h2>
+        ): (
+            <div className="pagelist-order__main">
+            {orders.map( order => (
+              <Accordion title="service 01">
+                  {order.descricao && <p>Descricao: {order.descricao}</p> }
+                  {order.dataFechamento && (<p>dataFechamento: {order.dataFechamento}</p>)}
+                  {order.dataInicioAtendimento && (<p>dataInicioAtendimento: {order.dataInicioAtendimento}</p>)}
+                  {order.prazoParaConclusao && (<p>prazoParaConclusao: {order.prazoParaConclusao}</p>)}
+                  {order.assunto && (<p>assunto: {order.assunto}</p>)}
+                  {order.status && (<p>status: {order.status}</p>)}
+                  <a href={`/feedback?orderId=${order.id}&userId=${userId}`}>feedback</a>
+              </Accordion>
+              /* LINK PARA CONVERSAÇÃO [CLIENTE | DEV]  {order.feedbacks}*/
+            ))}
+            {/* BOTÃO DE CRIAR OS */}
+          </div>
+        )}
       </div>
     </>
   );
