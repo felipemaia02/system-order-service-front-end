@@ -102,11 +102,11 @@ export default function ListOfOrders() {
           <>
             {order.status !== 'FECHADA' && 
               <Accordion title={order.descricao}>
-                  {order.dataFechamento && (<p>dataFechamento: {order.dataFechamento}</p>)}
-                  {order.dataInicioAtendimento && (<p>dataInicioAtendimento: {order.dataInicioAtendimento}</p>)}
-                  <p>prazoParaConclusao: {order.prazoParaConclusao}</p>
-                  {order.assunto && (<p>assunto: {order.assunto}</p>)}
-                  <p>status: {order.status}</p>
+                  {order.dataFechamento && (<p>Data de fechamento: {order.dataFechamento}</p>)}
+                  {order.dataInicioAtendimento && (<p>Data de inicio: {order.dataInicioAtendimento}</p>)}
+                  {order.prazoParaConclusao && (<p>Prazo para conclusão: {order.prazoParaConclusao}</p>)}
+                  {order.assunto && (<p>Assunto: {order.assunto}</p>)}
+                  <p>Status: {order.status}</p>
                   {(order.status === 'ABERTA' && userTypeState === 'ADM') &&(<button onClick={() => atribuirOs(order.id)}>Atribuir OS</button>)}
                   {(userTypeState === 'USR' || userTypeState === 'DEV') && (<a href={`/feedback?orderId=${order.id}&userId=${userId}`}>feedback</a>)}
                   {userTypeState === 'DEV' && (
