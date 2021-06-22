@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Accordion } from "../../components/Accordion";
 import { IFeedback } from "../../utils/interfaces";
 import { getFeedback, createFeedback } from "../../services/feedback";
 import {findOs} from '../../services/order'
@@ -58,10 +57,10 @@ export default function ListOfOrders() {
 
     return (
         <>
-            <div className="pagelist-orders">
+            <div className="feedback-chat">
                 <h1>FeedBack {orderName}</h1>
-                <div className="pagelist-order__main">
-                    {feedbacks.map((feedback) => (
+                <div className="feedback-chat__main">
+                    {feedbacks.map((feedback, index) => (
                         <>
                             {feedback.autor.nome && (
                                 <p>
@@ -75,8 +74,10 @@ export default function ListOfOrders() {
                             setText(event.target.value);
                         }}
                     ></textarea>
-                    {!sendingMsg && <button onClick={sendMessage}>enviar</button>}
-                    {sendingMsg && <p>CARREGANDO</p>}
+                    <div className="button-feedback">
+                        {!sendingMsg && <button className = 'button-feedback-create' onClick={sendMessage}>enviar</button>}
+                        {sendingMsg && <p>CARREGANDO</p>}
+                    </div>
                 </div>
             </div>
         </>
