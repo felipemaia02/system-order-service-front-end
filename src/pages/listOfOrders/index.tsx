@@ -2,14 +2,15 @@ import React, { useState, useEffect, FormEvent } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { Accordion } from "../../components/Accordion";
 import { IOrder } from "../../utils/interfaces";
-import { findOSAssignedToDev, findAllOs, findOSCreatedByClient } from "../../services/order";
+import { findOSAssignedToDev, listOs, findOSCreatedByClient } from "../../services/order";
+import { useHistory } from "react-router-dom";
 
 import "./style.scss";
 
 export default function ListOfOrders() {
   const [orders, serOrder] = useState<IOrder[]>([]);
   const [userTypeState, setUserType] = useState('ADM');
-
+  const history = useHistory()
   let userType = 'ADM'
   let userId = 1
 
@@ -53,7 +54,7 @@ export default function ListOfOrders() {
   };
 
   const getAllOSs = async () => {
-    const orders = await findAllOs();
+    const orders = await listOs();
     console.log(orders);
     if (orders) serOrder(orders);
   };
@@ -69,7 +70,8 @@ export default function ListOfOrders() {
   }
 
   const criarOs = () => {
-    
+    console.log('mudar')
+    history.push('/create-order')
     //mudar para tela de criar OS
   }
 
@@ -89,7 +91,7 @@ export default function ListOfOrders() {
                 {(userTypeState === 'USR' || userTypeState === 'DEV') && (<a href={`/feedback?orderId=${order.id}&userId=${userId}`}>feedback</a>)}
             </Accordion>
           ))}
-          {userTypeState === 'USR' && (<button onClick={()=>criarOs}>Criar OS</button>)}
+          {userTypeState === 'USR' && (<button onClick={criarOs}>Criar OS</button>)}
         </div>
       </div>
     </>

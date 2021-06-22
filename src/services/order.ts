@@ -56,9 +56,20 @@ const findOSCreatedByClient = async (clientId: number) => {
     }
 }
 
-const findAllOs = async () => {
+const listOs = async () => {
     try {
         const orders:IOrder[] = (await api.get(`/ordens`)).data
+        return orders
+    } catch (err) {
+        //tratar erro
+        console.log(err)
+        return false
+    }
+}
+
+const findOs = async (id:number) => {
+    try {
+        const orders:IOrder = (await api.get(`/ordens/${id}`)).data
         return orders
     } catch (err) {
         //tratar erro
@@ -83,8 +94,9 @@ export  {
     findOSAssignedToDev,
     findActiveOSAndAssignToDev,
     finalizeOs,
-    findAllOs,
-    findOSCreatedByClient
+    listOs,
+    findOSCreatedByClient,
+    findOs
 }
 
 interface IDevIdAndStatus {
