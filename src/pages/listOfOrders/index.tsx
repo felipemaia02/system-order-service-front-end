@@ -86,6 +86,9 @@ export default function ListOfOrders() {
   const goToCreateOrder = () => {
     history.push(`/create-order?userId=${userId}`)
   }
+  const goToAssignOrder = () => {
+    history.push(`/assign-order?userId=${userId}`)
+  }
 
   return (
     <>
@@ -108,7 +111,7 @@ export default function ListOfOrders() {
                   {order.prazoParaConclusao && (<p>Prazo para conclusão: {order.prazoParaConclusao}</p>)}
                   {order.assunto && (<p>Assunto: {order.assunto}</p>)}
                   <p>Status: {order.status}</p>
-                  {(order.status === 'ABERTA' && userTypeState === 'ADM') &&(<button onClick={() => atribuirOs(order.id)}>Atribuir OS</button>)}
+                  {(order.status === 'ABERTA' && userTypeState === 'ADM') &&(<button className='button-assign-add' onClick={() => atribuirOs(order.id)}>Atribuir OS</button>)}
                   {(userTypeState === 'USR' || userTypeState === 'DEV') && (<a href={`/feedback?orderId=${order.id}&userId=${userId}`}>feedback</a>)}
                   {userTypeState === 'DEV' && (
                 <div className='button-div'>
