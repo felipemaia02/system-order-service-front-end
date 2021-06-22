@@ -40,7 +40,7 @@ export default function ListOfOrders() {
     const sendMessage = async () => {
         setSendingMsg(true);
         try {
-            const newFeedback = await createFeedback(orderId, { autorId: autorId, mensagem: text }).then(resp => {
+            await createFeedback(orderId, { autorId: autorId, mensagem: text }).then(resp => {
                 if (resp) {
                     const newFeedback: IFeedback = resp.data
                     let newFeedbacks = [...feedbacks]

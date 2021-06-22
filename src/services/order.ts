@@ -2,6 +2,15 @@ import api from '../config/api'
 import {IOrder} from '../utils/interfaces'
 
 
+const deleteOS = async (id:number) => {
+    try {
+        return await api.delete(`/ordens/${id}`)
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 const createOS = async (payload: IOS) => {
     try {
         return (await api.post('/ordens', payload)).data
@@ -96,7 +105,8 @@ export  {
     finalizeOs,
     listOs,
     findOSCreatedByClient,
-    findOs
+    findOs,
+    deleteOS
 }
 
 interface IDevIdAndStatus {
