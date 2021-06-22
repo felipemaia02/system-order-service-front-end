@@ -6,7 +6,7 @@ import { getFeedback, createFeedback } from "../../services/feedback";
 import "./style.scss";
 
 export default function ListOfOrders() {
-    const [feedbacks, serFeedbacks] = useState<IFeedback[]>([]);
+    const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
     const [text, setText] = useState("");
     const [sendingMsg, setSendingMsg] = useState(false);
     const [stateOrderId, setSstateOrderId] = useState(0);
@@ -33,7 +33,7 @@ export default function ListOfOrders() {
     const setFeedback = async () => {
         const feedback = await getFeedback(orderId);
         console.log(feedback);
-        if (feedback) serFeedbacks(feedback);
+        if (feedback) setFeedbacks(feedback);
     };
 
     const sendMessage = async () => {
@@ -44,7 +44,7 @@ export default function ListOfOrders() {
                     const newFeedback: IFeedback = resp.data
                     let newFeedbacks = [...feedbacks]
                     newFeedbacks.push(newFeedback)
-                    serFeedbacks(newFeedbacks)
+                    setFeedbacks(newFeedbacks)
                 }
                 setSendingMsg(false);
             });

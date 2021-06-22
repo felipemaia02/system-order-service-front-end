@@ -1,8 +1,9 @@
 import React, { useState, useEffect, FormEvent } from "react";
-import { FiChevronRight } from "react-icons/fi";
+import { FiTrash2 } from "react-icons/fi";
 import { Accordion } from "../../components/Accordion";
 import { IOrder } from "../../utils/interfaces";
 import { findOSAssignedToDev, findAllOs, findOSCreatedByClient } from "../../services/order";
+import { NavLink } from 'react-router-dom';
 
 import "./style.scss";
 
@@ -75,21 +76,42 @@ export default function ListOfOrders() {
 
   return (
     <>
-      <div className="pagelist-orders">
+      <div className="pagelist-order">
         <h1>Serviços</h1>
+        { orders.length <= 0 ? (
+            <div className="pagelist-order__main">
+                <Accordion title="Sem nenhuma ordem">
+                    <p>Sem nada aqui! 😓</p>
+                </Accordion>
+            </div>    
+        ) : (
         <div className="pagelist-order__main">
           {orders.map( order => (
             <Accordion title={order.descricao}>
                 {order.dataFechamento && (<p>dataFechamento: {order.dataFechamento}</p>)}
                 {order.dataInicioAtendimento && (<p>dataInicioAtendimento: {order.dataInicioAtendimento}</p>)}
-                <p>prazoParaConclusao: {order.prazoParaConclusao}</p>
+                {order.prazoParaConclusao && (<p>Prazo de conclusao: {order.prazoParaConclusao}</p>)}
                 {order.assunto && (<p>assunto: {order.assunto}</p>)}
-                <p>status: {order.status}</p>
+                <p>Status: {order.status}</p>
                 {(order.status === 'ABERTA' && userTypeState === 'ADM') &&(<button onClick={() => atribuirOs(order.id)}>Atribuir OS</button>)}
                 {(userTypeState === 'USR' || userTypeState === 'DEV') && (<a href={`/feedback?orderId=${order.id}&userId=${userId}`}>feedback</a>)}
+                {userTypeState === 'DEV' && (
+                <div className='button-div'>
+                    {/* LINS FAZER O TREM APAGAR AQUI SAFADO */}
+                    <button type="button" className='button-delete' onClick={() => {}}> 
+                        <FiTrash2/>
+                    </button>
+                </div>
+                )}
             </Accordion>
           ))}
           {userTypeState === 'USR' && (<button onClick={()=>criarOs}>Criar OS</button>)}
+        </div>
+        )}
+        <div className='button-create'>
+            <NavLink type="button" className='button-add' to='/create-order'> 
+                Criar chamado
+            </NavLink>
         </div>
       </div>
     </>
