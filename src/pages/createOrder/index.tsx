@@ -6,7 +6,9 @@ import './style.scss'
 
 export default function createOrder(){
     return(
-        <h1>Criar OS</h1>
+        <div>
+            <h1>Criar OS</h1>
+        </div>
     );
 }
   
