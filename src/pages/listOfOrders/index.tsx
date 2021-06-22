@@ -70,12 +70,6 @@ export default function ListOfOrders() {
     //mudar para tela de atribuir OS
   }
 
-  const criarOs = () => {
-    console.log('mudar')
-    history.push('/create-order')
-    //mudar para tela de criar OS
-  }
-
   const removeOS = async (id:number) => {
       deleteOS(id).then(() => {
         let cloneOrders:IOrder[] = []
@@ -86,6 +80,10 @@ export default function ListOfOrders() {
         })
         setOrder(cloneOrders)
       })
+  }
+
+  const goToCreateOrder = () => {
+    history.push(`/create-order?userId=${userId}`)
   }
 
   return (
@@ -113,7 +111,6 @@ export default function ListOfOrders() {
                   {(userTypeState === 'USR' || userTypeState === 'DEV') && (<a href={`/feedback?orderId=${order.id}&userId=${userId}`}>feedback</a>)}
                   {userTypeState === 'DEV' && (
                 <div className='button-div'>
-                    {/* LINS FAZER O TREM APAGAR AQUI SAFADO */}
                     <button type="button" className='button-delete' onClick={() => {removeOS(order.id)}}> 
                         <FiTrash2/>
                     </button>
@@ -123,14 +120,13 @@ export default function ListOfOrders() {
             }
           </>
           ))}
-          {userTypeState === 'USR' && (<button onClick={criarOs}>Criar OS</button>)}
         </div>
         )}
         {userTypeState === 'USR' && (
         <div className='button-create'>
-            <NavLink type="button" className='button-add' to='/create-order'> 
+            <button type="button" className='button-add' onClick={goToCreateOrder}> 
                 Criar chamado
-            </NavLink>
+            </button>
         </div>)}
       </div>
     </>
