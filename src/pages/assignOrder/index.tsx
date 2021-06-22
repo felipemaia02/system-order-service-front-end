@@ -2,23 +2,31 @@ import React, { useState, useEffect, FormEvent } from "react";
 
 import {assignOrderToDev} from '../../services/order'
 import {listDevs} from '../../services/dev'
+import {IUser} from '../../utils/interfaces'
 import './style.scss'
 
 export default function AssignOrder () {
     const [duration, setDuration] = useState(0)
     const [userId, setUserId] = useState(0)
-    const [devs, setDevs] = useState(0)
+    const [orderId, setOrderId] = useState(0)
+    const [devs, setDevs] = useState<IUser[]>([])
 
-    let orderId:number
-
+    
     useEffect(() => {
         const urlSearchParams = new URLSearchParams(window.location.search);
         const params: any = Object.fromEntries(urlSearchParams.entries());
-        if (params.orderId) orderId = params.orderId
-    })
+        console.log(params)
+        if (params.orderId) setOrderId(params.orderId)
+        listDevs().then(devs => {
+            if (devs){
+                setDevs(devs)
+                if(devs.length === 1) setUserId(devs[0].id)
+            } 
+        })
+    },[])
 
     const assingOrder = async () => {
-        await assignOrderToDev({devId:userId, orderId}, duration)
+        assignOrderToDev({devId:userId, orderId}, duration).then(resp => console.log(resp)).catch(err => console.log(err))
     }
 
     return (
@@ -28,16 +36,19 @@ export default function AssignOrder () {
                 <form>
                     <div>
                         <label>Data Final:</label>
-                        <input type="number" placeholder='Data Final'/>
+                        <input onChange={event => setDuration(parseInt(event.target.value))} type="number" placeholder='Data Final'/>
                     </div>
                     <div>
                         <label>Usuários:</label>
-                        <select>
-                          <option value="value">Valor1</option>
-                        </select>
+                               <select onChange={event => {setUserId(parseInt(event.target.value))}}>
+                               {devs.map((dev:any) => (
+                                   <option value={dev.id} >{dev.nome}</option>
+                            ))}
+                             </select> 
+                            
                     </div>
                     <div className='button-create'>
-                        <button type="submit" className='button-add'> 
+                        <button onClick={assingOrder} type="submit" className='button-add'> 
                             Enviar
                         </button>
                     </div>

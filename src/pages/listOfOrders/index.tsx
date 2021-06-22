@@ -12,6 +12,7 @@ import "./style.scss";
 export default function ListOfOrders() {
   const [orders, setOrder] = useState<IOrder[]>([]);
   const [userTypeState, setUserType] = useState('ADM');
+  const [userIdState, setUserIdState] = useState(0);
   const history = useHistory()
   let userType = 'ADM'
   let userId = 1
@@ -43,6 +44,7 @@ export default function ListOfOrders() {
             userType = params.userType
             setUserType(userType)
             userId = params.userId
+            setUserIdState(userId)
         } catch (error) {
             console.log(error)
         }
@@ -67,10 +69,6 @@ export default function ListOfOrders() {
     if (orders) setOrder(orders);
   };
 
-  const atribuirOs = (orderId:number) => {
-    //mudar para tela de atribuir OS
-  }
-
   const removeOS = async (id:number) => {
       deleteOS(id).then(() => {
         let cloneOrders:IOrder[] = []
@@ -86,8 +84,8 @@ export default function ListOfOrders() {
   const goToCreateOrder = () => {
     history.push(`/create-order?userId=${userId}`)
   }
-  const goToAssignOrder = () => {
-    history.push(`/assign-order?userId=${userId}`)
+  const goToAssignOrder = (orderId:number) => {
+    history.push(`/assign-order?orderId=${orderId}`)
   }
 
   return (
@@ -111,7 +109,7 @@ export default function ListOfOrders() {
                   {order.prazoParaConclusao && (<p>Prazo para conclusão: {order.prazoParaConclusao}</p>)}
                   {order.assunto && (<p>Assunto: {order.assunto}</p>)}
                   <p>Status: {order.status}</p>
-                  {(order.status === 'ABERTA' && userTypeState === 'ADM') &&(<button className='button-assign-add' onClick={() => atribuirOs(order.id)}>Atribuir OS</button>)}
+                  {(order.status === 'ABERTA' && userTypeState === 'ADM') &&(<button className='button-assign-add' onClick={() => goToAssignOrder(order.id)}>Atribuir OS</button>)}
                   {(userTypeState === 'USR' || userTypeState === 'DEV') && (<a href={`/feedback?orderId=${order.id}&userId=${userId}`}>feedback</a>)}
                   {userTypeState === 'DEV' && (
                 <div className='button-div'>

@@ -24,11 +24,11 @@ const createOS = async (payload: IOS) => {
 const assignOrderToDev = async (params: IOrderAndDevId, prazo: number) => {
     const {orderId, devId} = params
     try {
-        return (await api.post(`/ordens/${orderId}/devs/${devId}`, {prazo})).data
+        return (await api.put(`/ordens/${orderId}/devs/${devId}`, {prazo})).data
     } catch (err) {
         //tratar erro
         console.log(err)
-        return {err}
+        return false
     }
 }
 

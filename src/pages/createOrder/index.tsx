@@ -7,17 +7,19 @@ import './style.scss'
 
 export default function CreateOrder(){
   const [text, setText] = useState('ADM');
+  const [clienteId, setClienteId] = useState(0);
 
-  let userId:number
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params: any = Object.fromEntries(urlSearchParams.entries());
-    if(params.userId) userId=params.userId
-  })
+    if(params.userId) {
+        setClienteId(params.userId)
+    } 
+  }, [])
 
   const postOs = async () => {
-    await createOS({clienteId:userId, descricao:text})
+    await createOS({clienteId, descricao:text})
   }
 
 
