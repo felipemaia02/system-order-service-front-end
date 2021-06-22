@@ -8,6 +8,7 @@ import { NavLink } from 'react-router-dom';
 
 import "./style.scss";
 
+
 export default function ListOfOrders() {
   const [orders, setOrder] = useState<IOrder[]>([]);
   const [userTypeState, setUserType] = useState('ADM');
@@ -123,7 +124,6 @@ export default function ListOfOrders() {
             }
           </>
           ))}
-          {userTypeState === 'USR' && (<button onClick={criarOs}>Criar OS</button>)}
         </div>
         )}
         {userTypeState === 'USR' && (
