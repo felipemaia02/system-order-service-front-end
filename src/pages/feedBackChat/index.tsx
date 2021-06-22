@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Accordion } from "../../components/Accordion";
 import { IFeedback } from "../../utils/interfaces";
 import { getFeedback, createFeedback } from "../../services/feedback";
+import {findOs} from '../../services/order'
 
 import "./style.scss";
 
@@ -9,37 +10,38 @@ export default function ListOfOrders() {
     const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
     const [text, setText] = useState("");
     const [sendingMsg, setSendingMsg] = useState(false);
-    const [stateOrderId, setSstateOrderId] = useState(0);
-    const [stateAutorId, setStateAutorId] = useState(0);
+    const [orderName, setOrderName] = useState('');
 
-    let orderId: number;
+    let orderId:number
+    let autorId:number
+
     useEffect(() => {
         setQueryValues()
-        setFeedback();
+        setFeedbackAndOrderName()
     }, []);
 
     const setQueryValues = () =>{
         const urlSearchParams = new URLSearchParams(window.location.search);
         const params: any = Object.fromEntries(urlSearchParams.entries());
         if(params?.userId){
-            setStateAutorId(params.userId)
+            autorId = params.userId
         }
         if(params?.orderId){
             orderId = parseInt(params.orderId); 
-            setSstateOrderId(orderId)
         }
     }
 
-    const setFeedback = async () => {
+    const setFeedbackAndOrderName = async () => {
         const feedback = await getFeedback(orderId);
-        console.log(feedback);
+        const order = await findOs(orderId)
+        if (order) setOrderName(order.descricao)
         if (feedback) setFeedbacks(feedback);
     };
 
     const sendMessage = async () => {
         setSendingMsg(true);
         try {
-            const newFeedback = await createFeedback(stateOrderId, { autorId: stateAutorId, mensagem: text }).then(resp => {
+            const newFeedback = await createFeedback(orderId, { autorId: autorId, mensagem: text }).then(resp => {
                 if (resp) {
                     const newFeedback: IFeedback = resp.data
                     let newFeedbacks = [...feedbacks]
@@ -57,7 +59,7 @@ export default function ListOfOrders() {
     return (
         <>
             <div className="pagelist-orders">
-                <h1>FeedBack [NomeDaOrder]</h1>
+                <h1>FeedBack {orderName}</h1>
                 <div className="pagelist-order__main">
                     {feedbacks.map((feedback) => (
                         <>
