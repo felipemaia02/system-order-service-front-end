@@ -7,7 +7,7 @@ import {findOs} from '../../services/order'
 import "./style.scss";
 
 export default function ListOfOrders() {
-    const [feedbacks, serFeedbacks] = useState<IFeedback[]>([]);
+    const [feedbacks, setFeedbacks] = useState<IFeedback[]>([]);
     const [text, setText] = useState("");
     const [sendingMsg, setSendingMsg] = useState(false);
     const [orderName, setOrderName] = useState('');
@@ -35,7 +35,7 @@ export default function ListOfOrders() {
         const feedback = await getFeedback(orderId);
         const order = await findOs(orderId)
         if (order) setOrderName(order.descricao)
-        if (feedback) serFeedbacks(feedback);
+        if (feedback) setFeedbacks(feedback);
     };
 
     const sendMessage = async () => {
@@ -46,7 +46,7 @@ export default function ListOfOrders() {
                     const newFeedback: IFeedback = resp.data
                     let newFeedbacks = [...feedbacks]
                     newFeedbacks.push(newFeedback)
-                    serFeedbacks(newFeedbacks)
+                    setFeedbacks(newFeedbacks)
                 }
                 setSendingMsg(false);
             });
