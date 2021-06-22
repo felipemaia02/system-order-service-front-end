@@ -1,9 +1,26 @@
 import React, { useState, useEffect, FormEvent } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 
+import {createOS} from '../../services/order'
+
 import './style.scss'
 
-export default function createOrder(){
+export default function CreateOrder(){
+  const [text, setText] = useState('ADM');
+
+  let userId:number
+
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params: any = Object.fromEntries(urlSearchParams.entries());
+    if(params.userId) userId=params.userId
+  })
+
+  const postOs = async () => {
+    await createOS({clienteId:userId, descricao:text})
+  }
+
+
     return(
         <div className="create-order">
             <h1>Criar OS</h1>
@@ -11,10 +28,10 @@ export default function createOrder(){
                 <form>
                     <div>
                         <label>Descrição:</label>
-                        <textarea placeholder='Inserir descrição'/>
+                        <textarea onChange={event=>setText(event.target.value)}placeholder='Inserir descrição'/>
                     </div>
                     <div className='button-create'>
-                        <button type="submit" className='button-add'> 
+                        <button onClick={postOs} type="submit" className='button-add'> 
                             Criar chamado
                         </button>
                     </div>
