@@ -82,7 +82,7 @@ export default function ListOfOrders() {
   }
 
   const goToCreateOrder = () => {
-    history.push(`/create-order?userId=${userId}`)
+    history.push(`/create-order?userId=${userIdState}`)
   }
   const goToAssignOrder = (orderId:number) => {
     history.push(`/assign-order?orderId=${orderId}`)
@@ -110,7 +110,7 @@ export default function ListOfOrders() {
                   {order.assunto && (<p>Assunto: {order.assunto}</p>)}
                   <p>Status: {order.status}</p>
                   {(order.status === 'ABERTA' && userTypeState === 'ADM') &&(<button className='button-assign-add' onClick={() => goToAssignOrder(order.id)}>Atribuir OS</button>)}
-                  {(userTypeState === 'USR' || userTypeState === 'DEV') && (<a href={`/feedback?orderId=${order.id}&userId=${userId}`}>feedback</a>)}
+                  {(userTypeState === 'USR' || userTypeState === 'DEV') && (<a href={`/feedback?orderId=${order.id}&userId=${userIdState}`}>feedback</a>)}
                   {userTypeState === 'DEV' && (
                 <div className='button-div'>
                     <button type="button" className='button-delete' onClick={() => {removeOS(order.id)}}> 
