@@ -10,6 +10,8 @@ export default function ListOfOrders() {
     const [text, setText] = useState("");
     const [sendingMsg, setSendingMsg] = useState(false);
     const [orderName, setOrderName] = useState('');
+    const [orderIdState, setOrderIdState] = useState(0);
+    const [autorIdState, setAutorIdState] = useState(0);
 
     let orderId:number
     let autorId:number
@@ -24,9 +26,11 @@ export default function ListOfOrders() {
         const params: any = Object.fromEntries(urlSearchParams.entries());
         if(params?.userId){
             autorId = params.userId
+            setAutorIdState(autorId)
         }
         if(params?.orderId){
-            orderId = parseInt(params.orderId); 
+            orderId = parseInt(params.orderId);
+            setOrderIdState(orderId) 
         }
     }
 
@@ -40,12 +44,13 @@ export default function ListOfOrders() {
     const sendMessage = async () => {
         setSendingMsg(true);
         try {
-            await createFeedback(orderId, { autorId: autorId, mensagem: text }).then(resp => {
+            await createFeedback(orderIdState, { autorId: autorIdState, mensagem: text }).then(resp => {
                 if (resp) {
                     const newFeedback: IFeedback = resp.data
                     let newFeedbacks = [...feedbacks]
                     newFeedbacks.push(newFeedback)
                     setFeedbacks(newFeedbacks)
+                    setText('')
                 }
                 setSendingMsg(false);
             });
@@ -70,6 +75,7 @@ export default function ListOfOrders() {
                         </>
                     ))}
                     <textarea
+                        value={text}
                         onChange={(event) => {
                             setText(event.target.value);
                         }}
